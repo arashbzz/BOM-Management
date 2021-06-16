@@ -71,7 +71,7 @@ class LoadBox(QtWidgets.QDialog):
         cur = connection.cursor()
         if self.listWidget.currentItem() != None:
             cur.execute(f"DELETE FROM ProjectName WHERE name = '{self.listWidget.currentItem().text()}'")
-            print(self.project_list)
+
             self.project_name = self.listWidget.currentItem().text()
             table_name =self.project_name.replace(" ", "_")
             self.table1 = "_"+ table_name + "_1"

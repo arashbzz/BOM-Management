@@ -328,9 +328,6 @@ class Ui_MainWindow(object):
         self.button_next_2.setStyleSheet(circle_style)
         self.button_next_3.setStyleSheet(circle_style)
 
-
-
-
         self.button_next_1.clicked.connect(lambda: self.tabWidget.setCurrentIndex(1))
         self.button_next_2.clicked.connect(lambda: self.tabWidget.setCurrentIndex(2))
         self.button_next_3.clicked.connect(lambda: self.tabWidget.setCurrentIndex(3))
@@ -352,6 +349,12 @@ class Ui_MainWindow(object):
         self.Layout4.setContentsMargins(0, 20, 450, 0)
         self.Layout4.setSpacing(454)
 
+        self.Laynext_1 = QtWidgets.QVBoxLayout(self.tab_2)
+        self.tabLayout.addLayout(self.Laynext_1)
+        self.Laynext_1.setContentsMargins(0, 0, 1100, 0)
+        self.Laynext_1.addWidget(self.button_next_1)
+
+
         self.tabLayout.addWidget(self.label0)
         self.tabLayout.addWidget(self.label)
         self.tabLayout.addLayout(self.Layout1)
@@ -361,7 +364,6 @@ class Ui_MainWindow(object):
 
         self.Layout1.addWidget(self.lineEdit)
         self.Layout1.addWidget(self.lineEdit1)
-        # self.Layout1.addWidget(self.button_next_1)
 
         self.Layout2.addWidget(self.tableWidget1)
         self.Layout2.addWidget(self.tableWidget3)
@@ -479,7 +481,7 @@ class Ui_MainWindow(object):
         cur = self.connection.cursor()
         check = False
         for row in cur.execute(f"SELECT *FROM {c}"):
-            print(row[0], item.text())
+
             if row[0] == item.text():
                 check = True
                 break
@@ -785,7 +787,7 @@ class Ui_MainWindow(object):
             while self.tableWidget8.item(row, 0) is not None:
                 id = self.tableWidget8.item(row, 0).text()
                 price = self.tableWidget8.item(row, 6).text()
-                print(id, price)
+
                 cur2.execute(f"UPDATE equipment SET price='{price}' WHERE id = {id}")
                 row += 1
             self.connection.commit()

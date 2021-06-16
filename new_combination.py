@@ -254,7 +254,7 @@ class editCombination(QtWidgets.QDialog):
         check = False
         row = 0
         while self.tableWidget1.item(row, 0) is not None:
-            print(self.tableWidget1.item(row, 0).text(), item.text())
+
             if self.tableWidget1.item(row, 0).text() == item.text():
                 check = True
                 break

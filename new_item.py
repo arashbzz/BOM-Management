@@ -90,9 +90,6 @@ class combination_managment(QtWidgets.QDialog):
 
     def contextMenuEvent(self, event):
         selected_rows = self.tableWidget1.selectedItems()
-        for i in selected_rows:
-            print(type(i), i.row())
-
         self.menu = QtWidgets.QMenu(self)
         addAction = QtWidgets.QAction('add', self)
         deleteAction = QtWidgets.QAction('delete', self)
@@ -128,7 +125,6 @@ class combination_managment(QtWidgets.QDialog):
 
     def deleteSlot(self, selected_rows):
         for i in selected_rows:
-            print(i.row())
             self.tableWidget1.removeRow(i.row())
 
     def load_data(self):
@@ -191,7 +187,6 @@ class combination_managment(QtWidgets.QDialog):
         for row in cur.execute('SELECT * FROM ProjectName'):
             table_name = row[0].replace(" ", "_")
             table1 = "_" + table_name + "_1"
-            print (table1)
             for i in remove_id:
                 cur.execute(f'DELETE FROM {table1} where id = {i}')
                 cur.execute(f'DELETE FROM combination where item = {i}')
