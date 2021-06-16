@@ -1,9 +1,10 @@
 from PyQt5 import QtWidgets, QtCore, QtPrintSupport, QtGui
 from PyQt5.QtGui import QIcon, QPixmap, QTextTableFormat
 
-
 class Window(QtWidgets.QDialog):
     def setupui(self, form,table7, table8, name):
+        font = QtGui.QFont("B Nazanin", 12)
+        form.setFont(font)
         self.setWindowTitle(self.tr('پرینت'))
         self.table7 = table7
         self.table8 = table8

@@ -54,40 +54,57 @@ class InitialDelegate(QtWidgets.QStyledItemDelegate):
 def about_win():
     about_form = QtWidgets.QDialog()
     about_form.setStyleSheet("background-color: rgb(255, 255, 255);")
-    about_form.resize(1000, 500)
     about_form.setWindowTitle("درباره برنامه")
-
+    font = QtGui.QFont("B Nazanin", 12)
     label = QLabel(about_form)
-    label.setGeometry(150, 350, 200, 200)
     pixmap = QPixmap('icons/zistab_logo.jpg')
-    pixmap = pixmap.scaledToWidth(150)
+    pixmap = pixmap.scaledToWidth(100)
     label.setPixmap(pixmap)
     label.resize(pixmap.width(), pixmap.height())
     label.setStyleSheet("background-image: white;")
 
     label_1 = QLabel(about_form)
-    label_1.setGeometry(750, 50, 500, 500)
     logo = QPixmap('icons/logo.jpg')
-    logo = logo.scaledToWidth(150)
+    logo = logo.scaledToWidth(100)
     label_1.setPixmap(logo)
     label_1.resize(logo.width(), logo.height())
 
-    # label.move(0, 100)
     label_2 = QLabel(about_form)
-    label_2.setGeometry(QtCore.QRect(50, 50, 600, 300))
+    label_2.setFont(font)
     label_2.setText(
         " برنامه مدیریت لیست لوازم \n\n این برنامه برای تهیه و مدیریت لیست لوازم پروژه های آبی می باشد.\n "
         "این نرم افزار مشمول قوانین کپی برداری بوده و کلیه حقوق مادی و معنوی آن متعلق به شرکت مهندسین "
-        "مشاور زیستاب می باشد. هرگونه استفاده غیر مجاز از این نرم افزار پیگرد قانونی دارد.\n \n ویرایش:  1.5 \n   \n http:/www.zistab.com")
+        "مشاور زیستاب می باشد. هرگونه استفاده غیر مجاز از این نرم افزار پیگرد قانونی دارد.\n \n ویرایش:  1.0 \n   \n "
+        "http:/www.zistab.com")
+
+    layout = QtWidgets.QHBoxLayout(about_form)
+    righlayout = QtWidgets.QHBoxLayout()
+    middlelayout = QtWidgets.QHBoxLayout()
+    leftlayout = QtWidgets.QHBoxLayout()
+
+    righlayout.setContentsMargins(0,0,0,100)
+    middlelayout.setContentsMargins(0, 0, 0, 0)
+    leftlayout.setContentsMargins(0, 100, 0, 0)
+
+    layout.addLayout(leftlayout)
+    layout.addLayout((middlelayout))
+    layout.addLayout(righlayout)
+    leftlayout.addWidget(label)
+    righlayout.addWidget(label_1)
+    middlelayout.addWidget(label_2)
+
     label_2.setWordWrap(True)
     about_form.exec_()
 
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        font = QtGui.QFont("B Nazanin", 12)
+        MainWindow.setFont(font)
         self.connection = sqlite3.connect('equipment _data.db')
         self.project_name = None
         MainWindow.setObjectName("MainWindow")
+
         self.x = 1200
         self.y = 600
         MainWindow.resize(self.x, self.y)
@@ -285,9 +302,9 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(2)
-        self.tableWidget1.clicked.connect(
+        self.tableWidget1.doubleClicked.connect(
             lambda: self.adding_to_table(self.tableWidget1, self.tableWidget2, self.table1))
-        self.tableWidget3.clicked.connect(
+        self.tableWidget3.doubleClicked.connect(
             lambda: self.adding_to_table(self.tableWidget3, self.tableWidget4, self.table2))
 
         circle_style = "QPushButton {" \
@@ -382,8 +399,8 @@ class Ui_MainWindow(object):
         self.tab_4_Layout.addWidget(self.tableWidget8, 2, 1)
         self.tab_4_Layout.addWidget(self.result2_button, 2, 3)
 
-        self.tableWidget2.clicked.connect(self.deleting_item_data)
-        self.tableWidget4.clicked.connect(self.deleting_combination_data)
+        self.tableWidget2.doubleClicked.connect(self.deleting_item_data)
+        self.tableWidget4.doubleClicked.connect(self.deleting_combination_data)
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -785,7 +802,8 @@ class Ui_MainWindow(object):
                         # self.tabWidget.setCurrentIndex(1)
                         self.tableWidget8.selectRow(r)
                         QMessageBox.critical(None, "خطا",
-                                             'قیمت به درستی وارد نشده است. میتوانید در همین صفحه قیمت را وارد و مجددا محاسبه را کلیک کنید. این قمیت در دیتابیس ذخیره می گردد.')
+                                             'قیمت به درستی وارد نشده است. میتوانید در همین صفحه قیمت را وارد و مجددا '
+                                             'محاسبه را کلیک کنید. این قمیت در دیتابیس ذخیره می گردد.')
                         break_alarm = True
                         break
                 if break_alarm:
@@ -826,7 +844,7 @@ class Ui_MainWindow(object):
         self.__tools.setTitle(_translate("MainWindow", "ابزار"))
         self.acrion_1.setText(_translate("MainWindow", "پروژه جدید"))
         self.acrion_1.setToolTip(_translate("MainWindow", "ایجاد پروژه جدید"))
-        self.action_2.setText(_translate("MainWindow", "باز کردن پروژه"))
+        self.action_2.setText(_translate("MainWindow", "بارگزاری پروژه"))
         self.action_4.setText(_translate("MainWindow", "خروج"))
         self.action_5.setText(_translate("MainWindow", "درباره برنامه"))
         self.action_3.setText(_translate("MainWindow", "راهنما"))

@@ -12,16 +12,16 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
+from PyQt5.Qt import QSize
 
 class combination_managment(QtWidgets.QDialog):
     def setupUi(self, Form):
-
+        font = QtGui.QFont("B Nazanin", 12)
+        Form.setFont(font)
         self.connection = sqlite3.connect('equipment _data.db')
 
         Form.setObjectName("مدیریت آیتم ها")
         Form.setWindowTitle("مدیریت آیتم ها")
-
-        Form.resize(700, 500)
 
         self.cancelButton = QtWidgets.QPushButton(Form)
         self.cancelButton.setText("خروج")
@@ -31,20 +31,28 @@ class combination_managment(QtWidgets.QDialog):
         self.saveButton.setText("ذخیره")
         self.saveButton.clicked.connect(self.save)
 
+        circle_style = "QPushButton {" \
+                       "border-radius : 10;" \
+                       "border : 1px solid grey}" \
+                       "QPushButton:pressed {" \
+                       "border-color : black;}"
         self.button_add = QtWidgets.QPushButton()
-        self.button_add.setIcon(QIcon('icons/logo.jpg'))
-        self.button_add.clicked.connect(self.select_add)
-
         self.button_del = QtWidgets.QPushButton()
-        self.button_del.setIcon(QIcon('icons/logo.jpg'))
+        self.button_add.setIcon(QIcon('icons/plus.png'))
+        self.button_del.setIcon(QIcon('icons/minus.png'))
+        self.button_add.resize(20,20)
+        self.button_del.resize(20,20)
+        self.button_add.setIconSize(QSize(20,20))
+        self.button_del.setIconSize(QSize(20,20))
+        self.button_add.setStyleSheet(circle_style)
+        self.button_del.setStyleSheet(circle_style)
+        self.button_add.clicked.connect(self.select_add)
         self.button_del.clicked.connect(self.select_del)
-
-
 
         self.lineEdit = QtWidgets.QLineEdit(Form)
         self.lineEdit.setAlignment(QtCore.Qt.AlignRight)
         self.lineEdit.setObjectName("lineEdit")
-        self.lineEdit.setPlaceholderText("جستجو                                        ")
+        self.lineEdit.setPlaceholderText("جستجو                                                             ")
         self.lineEdit.textChanged.connect(self.searcher)
 
         self.tableWidget1 = QtWidgets.QTableWidget(Form)
@@ -56,18 +64,21 @@ class combination_managment(QtWidgets.QDialog):
 
         self.layout = QtWidgets.QVBoxLayout(Form)
         self.layoutTop = QtWidgets.QHBoxLayout()
+        self.layoutmiddel= QtWidgets.QHBoxLayout()
         self.layoutDown = QtWidgets.QHBoxLayout()
-        self.layoutTop.setContentsMargins(30, 0, 0, 30)
+        self.layoutTop.setContentsMargins(10, 0, 0, 10)
+        self.layoutmiddel.setContentsMargins(10, 10, 600, 0)
         self.layout.setContentsMargins(50, 10, 50, 10)
         self.layoutDown.setContentsMargins(0, 30, 0, 0)
-        self.layoutDown.setSpacing(100)
+        self.layoutDown.setSpacing(500)
         self.layoutTop.setSpacing(500)
         self.layout.addLayout(self.layoutTop)
+        self.layout.addLayout(self.layoutmiddel)
         self.layout.addWidget(self.tableWidget1)
         self.layout.addLayout(self.layoutDown)
 
-        self.layoutTop.addWidget(self.button_add)
-        self.layoutTop.addWidget(self.button_del)
+        self.layoutmiddel.addWidget(self.button_add)
+        self.layoutmiddel.addWidget(self.button_del)
         self.layoutTop.addWidget(self.lineEdit)
 
         self.layoutDown.addWidget(self.cancelButton)

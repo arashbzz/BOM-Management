@@ -2,7 +2,6 @@ from PyQt5 import QtWidgets, QtCore, QtPrintSupport, QtGui
 from PyQt5.QtGui import QIcon, QPixmap, QTextTableFormat
 import xlwt
 
-
 class Window(QtWidgets.QDialog):
     def setupui(self, form,table7, table8, name):
         self.setWindowTitle(self.tr('Document Printer'))
@@ -27,7 +26,6 @@ class Window(QtWidgets.QDialog):
 
         self.radioButtom_1.toggled.connect(lambda : self.radio_action(1))
         self.radioButtom_2.toggled.connect(lambda: self.radio_action(2))
-
     def radio_action(self, num):
         self.buttonexcel.setEnabled(True)
         if num == 1:

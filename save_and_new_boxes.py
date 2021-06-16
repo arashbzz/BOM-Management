@@ -6,6 +6,8 @@ from PyQt5 import QtCore, QtWidgets, QtGui
 
 class LoadBox(QtWidgets.QDialog):
     def setupUi(self, Form):
+        font = QtGui.QFont("B Nazanin", 12)
+        Form.setFont(font)
         connection = sqlite3.connect('equipment _data.db')
         cur = connection.cursor()
         query = 'SELECT * FROM ProjectName'
@@ -103,6 +105,8 @@ class LoadBox(QtWidgets.QDialog):
 
 class SaveBox(QtWidgets.QDialog):
     def setupUi(self, Form):
+        font = QtGui.QFont("B Nazanin", 12)
+        Form.setFont(font)
         Form.setObjectName("Form")
         Form.resize(300, 200)
         Form.setLayoutDirection(QtCore.Qt.RightToLeft)

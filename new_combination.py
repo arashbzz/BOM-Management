@@ -15,6 +15,8 @@ from PyQt5.QtWidgets import (
 
 class combination_managment(QtWidgets.QDialog):
     def setupUi(self, Form):
+        font = QtGui.QFont("B Nazanin", 12)
+        Form.setFont(font)
 
         self.connection = sqlite3.connect('equipment _data.db')
 
@@ -68,6 +70,8 @@ class combination_managment(QtWidgets.QDialog):
         connection = sqlite3.connect('equipment _data.db')
         cur = connection.cursor()
         cur1 = connection.cursor()
+        while self.tableWidget1.rowCount() > 0:
+            self.tableWidget1.removeRow(0)
         if len(self.combination_list) != 0:
             for item in self.combination_list:
                 if self.comboList.currentText() == item:
@@ -118,6 +122,9 @@ class combination_managment(QtWidgets.QDialog):
 
 class editCombination(QtWidgets.QDialog):
     def setupUi(self, Form):
+        font = QtGui.QFont("B Nazanin", 12)
+        Form.setFont(font)
+
         self.connection = sqlite3.connect('equipment _data.db')
 
         Form.setObjectName("مدیریت مجموعه ها")
@@ -162,7 +169,7 @@ class editCombination(QtWidgets.QDialog):
         QtCore.QMetaObject.connectSlotsByName(Form)
         self.refreshing_combolist_combination()
         self.load_data()
-        self.tableWidget2.clicked.connect(lambda: self.adding_to_table())
+        self.tableWidget2.doubleClicked.connect(lambda: self.adding_to_table())
 
         # page layout
         self.layout = QtWidgets.QVBoxLayout(Form)
@@ -184,8 +191,6 @@ class editCombination(QtWidgets.QDialog):
         self.layoutDown.addWidget(self.cancelButton)
         self.layoutDown.addWidget(self.editButton)
         self.layoutDown.addWidget(self.newButton)
-
-
 
     def searcher(self):
         connection = sqlite3.connect('equipment _data.db')
@@ -324,6 +329,7 @@ class editCombination(QtWidgets.QDialog):
                     cur.execute(f"INSERT INTO combination (id,name,size,pn,item,PcsPerCom) VALUES (?,?,?,?,?,?)",
                                 (self.id, self.name, self.size, self.pn, item, pcs))
                     row += 1
+                if pcs == "0": row+=1
             self.connection.commit()
             self.refreshing_table1()
 
@@ -331,7 +337,8 @@ class editCombination(QtWidgets.QDialog):
         connection = sqlite3.connect('equipment _data.db')
         cur = connection.cursor()
         for row in cur.execute('SELECT * FROM ProjectName'):
-            table2 = row[0] + "2"
+            table_name = row[0].replace(" ", "_")
+            table2 = "_" + table_name + "_2"
             cur.execute(f'DELETE FROM {table2} where id = {self.id}')
         cur = connection.cursor()
         for item in self.combination_list:
@@ -345,6 +352,9 @@ class editCombination(QtWidgets.QDialog):
 
 class new_combination(QtWidgets.QDialog):
     def setupUi(self, Form):
+        font = QtGui.QFont("B Nazanin", 12)
+        Form.setFont(font)
+
         self.connection = sqlite3.connect('equipment _data.db')
         Form.setObjectName("Form")
         Form.setWindowTitle("مجموعه جدید")
@@ -438,7 +448,7 @@ class new_combination(QtWidgets.QDialog):
         QtCore.QMetaObject.connectSlotsByName(Form)
 
         self.load_data()
-        self.tableWidget2.clicked.connect(lambda: self.adding_to_table())
+        self.tableWidget2.doubleClicked.connect(lambda: self.adding_to_table())
 
     def searcher(self):
         connection = sqlite3.connect('equipment _data.db')
@@ -538,6 +548,8 @@ class new_combination(QtWidgets.QDialog):
             self.linesize.clear()
             self.linepn.clear()
             self.connection.commit()
+            while self.tableWidget1.rowCount() > 0:
+                self.tableWidget1.removeRow(0)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
