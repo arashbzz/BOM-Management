@@ -1,16 +1,8 @@
 import sqlite3
-import sys
-import os
 from PyQt5 import QtCore, QtWidgets, QtGui
-from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 from PyQt5.QtWidgets import (
-    QApplication,
-    QMainWindow,
     QMessageBox,
-    QTableWidget,
     QTableWidgetItem,
-    QVBoxLayout,
-    QWidget
 )
 
 class combination_managment(QtWidgets.QDialog):
@@ -284,14 +276,6 @@ class editCombination(QtWidgets.QDialog):
         self.comboList.clear()
         self.comboList.addItems(self.combination_list)
 
-    # def deleting_item_data(self):
-    #     row = self.tableWidget1.currentRow()
-    #     item = self.tableWidget1.item(row, 0)
-    #     connection = sqlite3.connect('equipment _data.db')
-    #     cur = connection.cursor()
-    #     cur.execute(f"DELETE FROM combination WHERE item=(?)", (item.text(),))
-    #     connection.commit()
-    #     self.tableWidget1.removeRow(int(row))
 
     def edit(self, item):
         check = True

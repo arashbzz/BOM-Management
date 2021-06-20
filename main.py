@@ -6,7 +6,6 @@ from PyQt5.QtWidgets import (
     QMessageBox,
     QTableWidgetItem,
     QLabel
-
 )
 from PyQt5.Qt import QSize
 import new_combination
@@ -209,7 +208,6 @@ class Ui_MainWindow(object):
         # Set up the view table 6
 
         self.tableWidget6 = QtWidgets.QTableWidget(self.tab_3)
-        self.tableWidget6.setGeometry(QtCore.QRect(100, 200, 750, 600))
         self.tableWidget6.setLayoutDirection(QtCore.Qt.RightToLeft)
         self.tableWidget6.setObjectName("tableWidget")
         self.tableWidget6.setColumnCount(5)
@@ -274,9 +272,11 @@ class Ui_MainWindow(object):
         self.action_11 = QtWidgets.QAction(MainWindow)
         self.action_12 = QtWidgets.QAction(MainWindow)
 
+
         self.menubar.addAction(self.__file.menuAction())
         self.menubar.addAction(self.__tools.menuAction())
         self.menubar.addAction(self.__about.menuAction())
+
 
         self.__file.addAction(self.acrion_1)
         self.__file.addAction(self.action_2)
@@ -299,6 +299,7 @@ class Ui_MainWindow(object):
         self.action_12.triggered.connect(self.print)
         self.action_7.setEnabled(False)
         self.action_12.setEnabled(False)
+        self.action_3.setEnabled(False)
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(2)
@@ -350,7 +351,7 @@ class Ui_MainWindow(object):
         self.Layout4.setSpacing(454)
 
         self.Laynext_1 = QtWidgets.QVBoxLayout(self.tab_2)
-        self.tabLayout.addLayout(self.Laynext_1)
+        # self.tabLayout.addLayout(self.Laynext_1)
         self.Laynext_1.setContentsMargins(0, 0, 1100, 0)
         self.Laynext_1.addWidget(self.button_next_1)
 
@@ -517,39 +518,41 @@ class Ui_MainWindow(object):
                 self.refreshing_table6()
 
     def load_data(self):
-        cur = self.connection.cursor()
+        try:
+            cur = self.connection.cursor()
 
-        while self.tableWidget1.rowCount() > 0:
-            self.tableWidget1.removeRow(0)
-        while self.tableWidget3.rowCount() > 0:
-            self.tableWidget3.removeRow(0)
+            while self.tableWidget1.rowCount() > 0:
+                self.tableWidget1.removeRow(0)
+            while self.tableWidget3.rowCount() > 0:
+                self.tableWidget3.removeRow(0)
 
-        for row in cur.execute('SELECT*FROM equipment'):
-            rows = self.tableWidget1.rowCount()
-            self.tableWidget1.setRowCount(rows + 1)
-            self.tableWidget1.setItem(rows, 0, QTableWidgetItem(str(row[0])))
-            self.tableWidget1.hideColumn(0)
-            self.tableWidget1.setItem(rows, 1, QTableWidgetItem(str(row[1])))
-            self.tableWidget1.setItem(rows, 2, QTableWidgetItem(str(row[2])))
-            self.tableWidget1.setItem(rows, 3, QTableWidgetItem(str(row[3])))
-        self.tableWidget1.resizeColumnsToContents()
+            for row in cur.execute('SELECT*FROM equipment'):
+                rows = self.tableWidget1.rowCount()
+                self.tableWidget1.setRowCount(rows + 1)
+                self.tableWidget1.setItem(rows, 0, QTableWidgetItem(str(row[0])))
+                self.tableWidget1.hideColumn(0)
+                self.tableWidget1.setItem(rows, 1, QTableWidgetItem(str(row[1])))
+                self.tableWidget1.setItem(rows, 2, QTableWidgetItem(str(row[2])))
+                self.tableWidget1.setItem(rows, 3, QTableWidgetItem(str(row[3])))
+            self.tableWidget1.resizeColumnsToContents()
 
-        for row in cur.execute('SELECT * FROM combination GROUP BY id'):
-            rows = self.tableWidget3.rowCount()
-            self.tableWidget3.setRowCount(rows + 1)
-            self.tableWidget3.setItem(rows, 0, QTableWidgetItem(str(row[0])))
-            self.tableWidget3.hideColumn(0)
-            self.tableWidget3.setItem(rows, 1, QTableWidgetItem(str(row[1])))
-            self.tableWidget3.setItem(rows, 2, QTableWidgetItem(str(row[2])))
-            self.tableWidget3.setItem(rows, 3, QTableWidgetItem(str(row[3])))
-        self.tableWidget3.resizeColumnsToContents()
+            for row in cur.execute('SELECT * FROM combination GROUP BY id'):
+                rows = self.tableWidget3.rowCount()
+                self.tableWidget3.setRowCount(rows + 1)
+                self.tableWidget3.setItem(rows, 0, QTableWidgetItem(str(row[0])))
+                self.tableWidget3.hideColumn(0)
+                self.tableWidget3.setItem(rows, 1, QTableWidgetItem(str(row[1])))
+                self.tableWidget3.setItem(rows, 2, QTableWidgetItem(str(row[2])))
+                self.tableWidget3.setItem(rows, 3, QTableWidgetItem(str(row[3])))
+            self.tableWidget3.resizeColumnsToContents()
 
-        self.refreshing_table2()  # loading table 2 from tab 1
-        self.refreshing_table5()  # loading table 5 from tab 2
-        self.refreshing_table4()  # loading table 4 from tab 1
-        self.refreshing_table6()  # loading table 6 from tab 2
+            self.refreshing_table2()  # loading table 2 from tab 1
+            self.refreshing_table5()  # loading table 5 from tab 2
+            self.refreshing_table4()  # loading table 4 from tab 1
+            self.refreshing_table6()  # loading table 6 from tab 2
 
-        self.label0.setText(f"نام طرج :  {self.project_name}")
+            self.label0.setText(f"نام طرج :  {self.project_name}")
+        except: pass
 
     def deleting_item_data(self):
         row = self.tableWidget2.currentRow()
@@ -729,8 +732,11 @@ class Ui_MainWindow(object):
             self.table2 = "_" + table_name + "_2"
             self.table3 = "_" + table_name + "_3"
             if self.project_name != "":
+
                 self.load_data()
         else:
+            self.project_name = None
+            self.label0.setText("")
             for i in range(1, 7):
                 command1 = 'self.tableWidget' + str(i) + '.rowCount()'
                 command2 = 'self.tableWidget' + str(i) + '.removeRow(0)'
@@ -867,5 +873,4 @@ if __name__ == "__main__":
     MainWindow.show()
     sys.exit(app.exec_())
 
-# delegate = ReadOnlyDelegate(self.qtable_widget)
-# self.qtable_widget.setItemDelegate(delegate)
+

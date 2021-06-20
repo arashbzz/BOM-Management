@@ -1,5 +1,4 @@
-from PyQt5 import QtWidgets, QtCore, QtPrintSupport, QtGui
-from PyQt5.QtGui import QIcon, QPixmap, QTextTableFormat
+from PyQt5 import QtWidgets, QtCore, QtGui
 import xlwt
 
 class Window(QtWidgets.QDialog):

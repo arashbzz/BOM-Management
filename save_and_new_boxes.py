@@ -1,7 +1,4 @@
-import xlwt
 import sqlite3
-import sys
-import os
 from PyQt5 import QtCore, QtWidgets, QtGui
 
 class LoadBox(QtWidgets.QDialog):
@@ -85,6 +82,7 @@ class LoadBox(QtWidgets.QDialog):
                 if item == self.listWidget.currentItem().text():
                     self.project_list.remove(item)
                     self.listWidget.takeItem(self.listWidget.currentRow())
+
             connection.commit()
 
     def list_clicked(self):

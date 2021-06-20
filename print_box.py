@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, QtCore, QtPrintSupport, QtGui
-from PyQt5.QtGui import QIcon, QPixmap, QTextTableFormat
+
 
 class Window(QtWidgets.QDialog):
     def setupui(self, form,table7, table8, name):
